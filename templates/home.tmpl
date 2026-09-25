@@ -1,65 +1,161 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Gangplank</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10,300..700;0,300..700&family=Roboto+Mono:ital,wght@0,400..700;1,400..700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       type="text/css"
       media="screen"
-      href="{{ .HTTPPath }}/static/style.css"
+      href="/home/bakito/go/src/github.com/bakito/gangplank/static/style.css"
     />
+    <script>
+      (function () {
+        const savedTheme = localStorage.getItem("gangplank-theme");
+        if (savedTheme) {
+          document.documentElement.setAttribute("data-theme", savedTheme);
+        } else if (
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches
+        ) {
+          document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
   </head>
-  <body style="height: 100%">
-    <div
-      class="euiFlexGroup euiFlexGroup-l-flexStart-stretch-column"
-      style="height: 100%"
-    >
-      <div class="euiFlexItem euiFlexItem-growZero">
-        <div
-          class="euiHeader euiHeader-static-default"
-          style="padding: 40px 0px"
-        >
-          <div class="euiFlexGroup euiFlexGroup-l-center-center-column">
-            <div class="euiFlexItem euiFlexItem-growZero">
-              <div class="euiText euiText-m">
-                <h1>Gangplank</h1>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="euiFlexItem euiFlexItem-grow-1" style="padding: 40px">
-        <div class="euiFlexGroup euiFlexGroup-l-center-center-column">
-          <div class="euiFlexItem euiFlexItem-growZero">
-            <div class="euiText euiText-m-euiTextAlign-center">
-              <h1>SIGHUP Gangplank Kubernetes Authentication</h1>
-              <p>
-                This utility will help you authenticate with your Kubernetes
-                cluster with an OpenID Connect (OIDC) flow. Sign in to get
-                started.
-              </p>
-            </div>
-          </div>
-          <div class="euiFlexItem euiFlexItem-growZero">
-            <a
-              href="{{ .HTTPPath }}/login"
-              rel="noreferrer"
-              class="euiButton euiButtonDisplay-m-defaultMinWidth-base-primary"
+  <body>
+    <div class="app-wrapper">
+      <header class="app-header">
+        <div class="header-container">
+          <a href="{{ .HTTPPath }}/" class="brand-link">
+            <svg
+              class="brand-logo"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             >
-              <span class="euiButtonDisplayContent">
-                <span class="eui-textTruncate">Sign in</span>
-              </span>
-            </a>
+              <circle cx="12" cy="12" r="10" />
+              <path d="m4.93 4.93 4.24 4.24" />
+              <path d="m14.83 9.17 4.24-4.24" />
+              <path d="m14.83 14.83 4.24 4.24" />
+              <path d="m9.17 14.83-4.24 4.24" />
+              <circle cx="12" cy="12" r="4" />
+            </svg>
+            <span>Gangplank</span>
+            <span class="brand-badge">OIDC</span>
+          </a>
+          <nav class="header-nav">
+            <button
+              id="theme-toggle"
+              type="button"
+              class="btn-icon"
+              title="Toggle theme"
+              aria-label="Toggle theme"
+              onclick="toggleTheme()"
+            >
+              <svg
+                class="icon theme-icon-sun"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+              </svg>
+              <svg
+                class="icon theme-icon-moon"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+            </button>
+          </nav>
+        </div>
+      </header>
+
+      <main class="app-main">
+        <div class="hero-container">
+          <div class="card card-hero">
+            <div class="hero-icon-wrapper">
+              <svg
+                class="icon-lg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </div>
+            <h1 class="hero-title">Kubernetes Authentication</h1>
+            <p class="hero-subtitle">
+              Authenticate with your Kubernetes cluster via OpenID Connect
+              (OIDC) flow to obtain credentials and configure your client.
+            </p>
+            <div>
+              <a
+                href="{{ .HTTPPath }}/login"
+                rel="noreferrer"
+                class="btn btn-primary btn-lg"
+              >
+                <span>Sign in with OIDC</span>
+                <svg
+                  class="icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
+
+      <footer class="app-footer">
+        <p>Gangplank &middot; Kubernetes Authentication</p>
+      </footer>
     </div>
+
+    <script>
+      function toggleTheme() {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme");
+        let newTheme = "light";
+        if (currentTheme === "light") {
+          newTheme = "dark";
+        } else if (currentTheme === "dark") {
+          newTheme = "light";
+        } else {
+          const isDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          newTheme = isDark ? "light" : "dark";
+        }
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("gangplank-theme", newTheme);
+      }
+    </script>
   </body>
 </html>
